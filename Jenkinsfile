@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clean Workspace') {
             steps {
-                bat 'if exist %WORKSPACE% rmdir /s /q %WORKSPACE%'
+                cleanWs()
             }
         }
         stage('Clone Repository') {
@@ -47,6 +47,9 @@ pipeline {
         }
     }
     post {
+        always {
+            cleanWs()
+        }
         success {
             echo 'Pipeline executed successfully!'
         }
