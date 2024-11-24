@@ -4,7 +4,7 @@ pipeline {
         NODE_ENV = 'production'
     }
     tools {
-        nodejs 'NodeJS 14'
+        nodejs 'NodeJS 20'
     }
     stages {
         stage('Clone Repository') {
