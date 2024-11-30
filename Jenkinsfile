@@ -19,6 +19,24 @@ pipeline {
                 bat 'npm install'
             }
         }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    // Run SonarScanner using Docker
+                    def sonarScannerCmd = """
+                        docker run --rm -v ${pwd()}:/project sonarsource/sonar-scanner-cli \
+                        -Dsonar.projectKey=devops-project \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=http://localhost:9000 \
+                        -Dsonar.login=sonar.login=sqp_8ab1987cd104b76f4cac3ad01811458efc5fe865
+
+                    """
+                    bat sonarScannerCmd
+                }
+            }
+        }
+
        
         stage('SonarQube Analysis') {
             steps {
