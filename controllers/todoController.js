@@ -5,7 +5,7 @@ const Todo = require('../models/todo');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 // Connect to MongoDB
-mongoose.connect(process.env.DB)
+mongoose.connect("mongodb+srv://ananya:YkgNzieY02l0Edgt@cluster0.8ddlkkd.mongodb.net/devopsProject")
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('MongoDB connection error:', err));
 
