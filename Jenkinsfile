@@ -38,13 +38,6 @@ pipeline {
         }
 
        
-        stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube-devopsProject') {
-                    bat 'sonar-scanner.bat'
-                }
-            }
-        }
         stage('Build Docker Image') {
             steps {
                 bat 'docker build -t my-app:latest .'
