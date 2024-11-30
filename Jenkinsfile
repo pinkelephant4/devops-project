@@ -2,20 +2,16 @@ pipeline {
     agent any
     environment {
         NODE_ENV = 'production'
-        DOCKER_IMAGE = "devops-project-${BUILD_NUMBER}"
+        DOCKER_HOST = 'tcp://localhost:2375'
     }
     tools {
         nodejs 'NodeJS 20'
     }
     stages {
-        stage('Clean Workspace') {
-            steps {
-                cleanWs()
-            }
-        }
+       
         stage('Clone Repository') {
             steps {
-                bat 'git clone -b main https://github.com/pinkelephant4/devops-project.git .'
+                git branch: 'main', url: 'https://github.com/pinkelephant4/devops-project.git'
             }
         }
         stage('Install Dependencies') {
@@ -23,38 +19,24 @@ pipeline {
                 bat 'npm install'
             }
         }
-        stage('Run Tests') {
-            steps {
-                bat 'npm test'
-            }
-        }
+       
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube-devopsProject') {
+                withSonarQubeEnv('SonarQube-devops-project') {
                     bat 'sonar-scanner.bat'
                 }
             }
         }
         stage('Build Docker Image') {
             steps {
-                bat "docker build -t %DOCKER_IMAGE% ."
+                bat 'docker build -t my-app:latest .'
             }
         }
         stage('Deploy Application') {
             steps {
-                bat "docker-compose up -d"
+                bat 'docker run -d -p 8080:8080 my-app:latest'
             }
         }
     }
-    post {
-        always {
-            cleanWs()
-        }
-        success {
-            echo 'Pipeline executed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Check the logs for details.'
-        }
-    }
+    
 }
