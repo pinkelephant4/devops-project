@@ -4,7 +4,7 @@ pipeline {
         NODE_ENV = 'production'
         DOCKER_HOST = 'tcp://localhost:2375'
         SONAR_HOST_URL = 'http://localhost:9000'
-        SONAR_AUTH_TOKEN = 'sqa_aa346d9718f48938dff657b0200629d4d7ba8c74' // Replace with your actual SonarQube token
+        SONAR_AUTH_TOKEN = 'sqa_aa346d9718f48938dff657b0200629d4d7ba8c74' 
     }
     tools {
         nodejs 'NodeJS 20'
@@ -25,7 +25,6 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    // Run SonarScanner on the local machine (instead of using Docker)
                     bat """
                     sonar-scanner \
                         -Dsonar.projectKey=devops-project \
